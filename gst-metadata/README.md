@@ -5,4 +5,4 @@
     cd gst-metadata
     ./build.sh
 
-Run how-to-write-metadata-gst-buffer.ipynb to check write/get/remove metadata from Gst.Buffer
+Run **how-to-write-metadata-gst-buffer.ipynb** to check write/get/remove metadata from Gst.Buffer
