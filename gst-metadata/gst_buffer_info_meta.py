@@ -25,8 +25,11 @@ clib.gst_buffer_add_buffer_info_meta.restype = c_void_p
 clib.gst_buffer_get_buffer_info_meta.argtypes = [c_void_p]
 clib.gst_buffer_get_buffer_info_meta.restype = GstBufferInfoPtr
 
+clib.gst_buffer_remove_buffer_info_meta.argtypes = [c_void_p]
+clib.gst_buffer_remove_buffer_info_meta.restype = c_bool
 
-def gst_buffer_write_buffer_info_meta(buffer, description):
+
+def write_meta(buffer, description):
     """
         Writes GstBufferInfo as metadata to Gst.Buffer
 
@@ -41,7 +44,7 @@ def gst_buffer_write_buffer_info_meta(buffer, description):
     clib.gst_buffer_add_buffer_info_meta(hash(buffer), meta)
 
 
-def gst_buffer_get_buffer_info_meta(buffer):
+def get_meta(buffer):
     """
         Get GstBufferInfo from Gst.Buffer
 
@@ -52,3 +55,15 @@ def gst_buffer_get_buffer_info_meta(buffer):
     """  
     res = clib.gst_buffer_get_buffer_info_meta(hash(buffer))
     return res.contents
+
+
+def remove_meta(buffer):
+    """
+        Removes GstBufferInfo from Gst.Buffer
+
+        :param name: buffer
+        :type name: Gst.Buffer
+
+        :rtype: bool
+    """  
+    return clib.gst_buffer_remove_buffer_info_meta(hash(buffer))

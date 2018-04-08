@@ -51,6 +51,9 @@ const GstMetaInfo * gst_buffer_info_meta_get_info(void);
 GST_EXPORT
 GstBufferInfoMeta* gst_buffer_add_buffer_info_meta(GstBuffer *buffer, GstBufferInfo*);
 
+GST_EXPORT
+gboolean gst_buffer_remove_buffer_info_meta(GstBuffer *buffer);
+
 GST_EXPORT 
 GstBufferInfo* gst_buffer_get_buffer_info_meta(GstBuffer* b);
  

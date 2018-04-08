@@ -61,6 +61,7 @@ static gboolean gst_buffer_info_meta_init(GstMeta *meta, gpointer params, GstBuf
  
 // Meta transform function
 // 5-th field in GstMetaInfo
+// https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gstreamer-GstMeta.html#GstMetaTransformFunction
 static gboolean gst_buffer_info_meta_transform(GstBuffer *transbuf, GstMeta *meta, GstBuffer *buffer,
                                                GQuark type, gpointer data)
 {
@@ -73,6 +74,7 @@ static gboolean gst_buffer_info_meta_transform(GstBuffer *transbuf, GstMeta *met
 // To avoid GstMeta (C) map to Gst.Meta (Python)
 GstBufferInfo* gst_buffer_get_buffer_info_meta(GstBuffer* buffer)
 {   
+    // https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBuffer.html#gst-buffer-get-meta
     GstBufferInfoMeta* meta = (GstBufferInfoMeta*)gst_buffer_get_meta((buffer), GST_BUFFER_INFO_META_API_TYPE);
     
     if (meta == NULL)
@@ -107,3 +109,20 @@ GstBufferInfoMeta* gst_buffer_add_buffer_info_meta( GstBuffer *buffer
     return gst_buffer_info_meta;
 }
 
+
+// Removes metadata (GstBufferInfo) from buffer
+gboolean gst_buffer_remove_buffer_info_meta(GstBuffer *buffer)
+{
+    g_return_val_if_fail(GST_IS_BUFFER(buffer), NULL);
+
+    GstBufferInfoMeta* meta = (GstBufferInfoMeta*)gst_buffer_get_meta((buffer), GST_BUFFER_INFO_META_API_TYPE);
+
+    if (meta == NULL)
+        return TRUE;
+    
+    if ( !gst_buffer_is_writable(buffer))
+        return FALSE;
+
+    // https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBuffer.html#gst-buffer-remove-meta
+    return gst_buffer_remove_meta(buffer, &meta->meta);
+}
