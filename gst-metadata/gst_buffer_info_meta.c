@@ -1,4 +1,3 @@
- 
 #include "gst_buffer_info_meta.h"
 
 #include "stdio.h"
@@ -56,8 +55,7 @@ const GstMetaInfo *gst_buffer_info_meta_get_info(void)
 static gboolean gst_buffer_info_meta_init(GstMeta *meta, gpointer params, GstBuffer *buffer)
 {
     GstBufferInfoMeta *gst_buffer_info_meta = (GstBufferInfoMeta*)meta;     
-    gst_buffer_info_meta->info.offset = 0;
-    gst_buffer_info_meta->info.timestamp = 0;
+    gst_buffer_info_meta->info.description = "";
     return TRUE;
 }
  
@@ -71,8 +69,8 @@ static gboolean gst_buffer_info_meta_transform(GstBuffer *transbuf, GstMeta *met
     return TRUE;
 }
 
-// Only for Python : return GstAnnotationArray instead of GstAnnotationsMeta
-// Special for Python
+// Only for Python : return GstBufferInfo instead of GstBufferInfoMeta
+// To avoid GstMeta (C) map to Gst.Meta (Python)
 GstBufferInfo* gst_buffer_get_buffer_info_meta(GstBuffer* buffer)
 {   
     GstBufferInfoMeta* meta = (GstBufferInfoMeta*)gst_buffer_get_meta((buffer), GST_BUFFER_INFO_META_API_TYPE);
@@ -89,14 +87,18 @@ GstBufferInfoMeta* gst_buffer_add_buffer_info_meta( GstBuffer *buffer
 {   
     GstBufferInfoMeta *gst_buffer_info_meta = NULL;
 
+    // check that gst_buffer valid
     g_return_val_if_fail(GST_IS_BUFFER(buffer), NULL);
 
-    if ( ! gst_buffer_is_writable(buffer))
+    // check that gst_buffer writable
+    if ( !gst_buffer_is_writable(buffer))
         return gst_buffer_info_meta;
 
+    // https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/GstBuffer.html#gst-buffer-add-meta
     gst_buffer_info_meta = (GstBufferInfoMeta *) gst_buffer_add_meta (buffer, GST_BUFFER_INFO_META_INFO, NULL);
 
-    if (buffer_info->data != NULL)
+    // copy fields to buffer's meta
+    if (buffer_info->description != NULL)
     {
         gst_buffer_info_meta->info.description = malloc(strlen(buffer_info->description) + 1);
         strcpy(gst_buffer_info_meta->info.description, buffer_info->description);

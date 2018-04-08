@@ -5,7 +5,6 @@ set(CMAKE_BUILD_TYPE Release)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(gst_buffer_info_meta SHARED gst_buffer_info_meta.c)
-add_library(gst_objects_info_meta SHARED gst_objects_info_meta.c)
 
 # Gstreamer linkage
 include(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
@@ -24,9 +23,5 @@ string(REPLACE "\n" "" CMAKE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS})
 message("CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
 
 set_target_properties(gst_buffer_info_meta
-                      PROPERTIES COMPILE_FLAGS ${CMAKE_C_FLAGS}
-                                 LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS})
-
-set_target_properties(gst_objects_info_meta
                       PROPERTIES COMPILE_FLAGS ${CMAKE_C_FLAGS}
                                  LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS})

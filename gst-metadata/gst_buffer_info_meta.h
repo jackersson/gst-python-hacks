@@ -42,7 +42,7 @@ struct _GstBufferInfoMeta {
     GstBufferInfo info;
 };  
 
-# 
+
 GType gst_buffer_info_meta_api_get_type(void);
  
 GST_EXPORT
