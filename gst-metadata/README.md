@@ -7,4 +7,4 @@
 
 Run **how-to-write-metadata-gst-buffer.ipynb** to check write/get/remove metadata from Gst.Buffer
 
-* This code is written for [post]()
+* Detailed code explanation is [here]()
